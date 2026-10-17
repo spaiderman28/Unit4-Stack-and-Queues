@@ -1,3 +1,5 @@
+import java.util.Queue;
+
 public class ArrayStack<T> implements Stack<T> {
     private T[] items;
     private int n;
@@ -33,6 +35,67 @@ public class ArrayStack<T> implements Stack<T> {
     public int size() {
         // TODO: Return the number of items currently in the stack.
         return n;
+    }
+
+    public static void reverseStack(Stack<Integer> s) {
+        Stack<Integer> temp = new ArrayStack<>();
+        while (!s.isEmpty()) {
+            temp.push(s.pop());
+        }
+        while (!temp.isEmpty()) {
+            s.push(temp.pop());
+        }
+    }
+
+    public static void reorder(Queue<Integer> q) {
+        Stack<Integer> stack = new ArrayStack<>();
+        int size = q.size();
+        for (int i = 0; i < size; i++) {
+            stack.push(q.remove());
+        }
+        while (!stack.isEmpty()) {
+            q.add(stack.pop());
+        }
+        for (int i = 0; i < size; i++) {
+            int num = q.remove();
+
+            if (num < 0) q.add(num);
+            else stack.push(num);
+        }
+        while (!stack.isEmpty()) {
+            q.add(stack.pop());
+        }
+    }
+
+    public static boolean isPalindrome(Queue<Integer> q) {
+        Stack<Integer> stack = new ArrayStack<>();
+        int size = q.size();
+        for (int i = 0; i < size; i++) {
+            int num = q.remove();
+            stack.push(num);
+            q.add(num);
+        }
+        for (int i = 0; i < size; i++) {
+            int num = q.remove();
+            if (num != stack.pop()) return false;
+            q.add(num);
+        }
+        return true;
+    }
+
+    public static int removeMin(Stack<Integer> stack) {
+        Stack<Integer> temp = new ArrayStack<>();
+        int min = stack.pop(); temp.push(min);
+        while (!stack.isEmpty()) {
+            int num = stack.pop();
+            if (num < min) min = num;
+            temp.push(num);
+        }
+        while (!temp.isEmpty()) {
+            int num = temp.pop();
+            if (num != min) stack.push(num);
+        }
+        return min;
     }
 
     /**
