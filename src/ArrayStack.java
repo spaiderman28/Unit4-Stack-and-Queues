@@ -63,7 +63,7 @@ public class ArrayStack<T> implements Stack<T> {
         else
             System.out.println("FAIL | " + label + " | expected: " + expected + " | got: " + actual);
     }
-
+ 
     public static void main(String[] args) {
         ArrayStack<String> stack = new ArrayStack<>();
         stack.push("first");
