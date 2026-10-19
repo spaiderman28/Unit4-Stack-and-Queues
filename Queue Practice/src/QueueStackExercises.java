@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.Queue;
 
 /**
  * Starter file for Queue & Stack Exercises 1–4.
@@ -12,29 +13,72 @@ public class QueueStackExercises {
 
     // Exercise 1: Reverse a stack using one queue.
     public static void reverseStack(Stack<Integer> s) {
-        // TODO: implement using one Queue as auxiliary storage.
+        Queue<Integer> temp = new LinkedList<>();
+        while (!s.isEmpty()) {
+            temp.add(s.pop());
+        }
+        while (!temp.isEmpty()) {
+            s.push(temp.remove());
+        }
     }
 
     // Exercise 2: Reorder a queue sorted by absolute value into numeric order.
     // Must use one stack as auxiliary storage.
     public static void reorder(Queue<Integer> q) {
-        // TODO: implement using one Stack as auxiliary storage.
+        Stack<Integer> stack = new ArrayStack<>();
+        int size = q.size();
+        for (int i = 0; i < size; i++) {
+            stack.push(q.remove());
+        }
+        while (!stack.isEmpty()) {
+            q.add(stack.pop());
+        }
+        for (int i = 0; i < size; i++) {
+            int num = q.remove();
+
+            if (num < 0) q.add(num);
+            else stack.push(num);
+        }
+        while (!stack.isEmpty()) {
+            q.add(stack.pop());
+        }
     }
 
     // Exercise 3: Return true if the queue is a palindrome.
     // Must restore the queue to its original state before returning.
     // Must use one Stack as auxiliary storage.
     public static boolean isPalindrome(Queue<Integer> q) {
-        // TODO: implement using one Stack as auxiliary storage.
-        return false; // placeholder
+        Stack<Integer> stack = new ArrayStack<>();
+        int size = q.size();
+        for (int i = 0; i < size; i++) {
+            int num = q.remove();
+            stack.push(num);
+            q.add(num);
+        }
+        for (int i = 0; i < size; i++) {
+            int num = q.remove();
+            if (num != stack.pop()) return false;
+            q.add(num);
+        }
+        return true;
     }
 
     // Exercise 4: Remove and return the minimum value from the stack.
     // Remove ALL occurrences of the minimum.
     // Must use one queue as auxiliary storage.
     public static int removeMin(Stack<Integer> stack) {
-        // TODO: implement using one Queue as auxiliary storage.
-        return 0; // placeholder
+        Stack<Integer> temp = new ArrayStack<>();
+        int min = stack.pop(); temp.push(min);
+        while (!stack.isEmpty()) {
+            int num = stack.pop();
+            if (num < min) min = num;
+            temp.push(num);
+        }
+        while (!temp.isEmpty()) {
+            int num = temp.pop();
+            if (num != min) stack.push(num);
+        }
+        return min;
     }
 
     // --- Test helpers ---
